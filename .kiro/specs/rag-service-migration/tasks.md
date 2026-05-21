@@ -77,8 +77,8 @@
     - **Property 3: Redis 值类型解析**
     - **Validates: Requirements 2.2, 2.3, 2.4, 2.5**
 
-- [ ] 4. 安全过滤模块
-  - [ ] 4.1 实现 validate_input 输入校验
+- [x] 4. 安全过滤模块
+  - [x] 4.1 实现 validate_input 输入校验
     - 创建 `app/infra/security.py`
     - 定义 `@dataclass FilterResult: passed: bool, reason: str | None = None`
     - 实现 `validate_input(message: str) -> FilterResult`：
@@ -89,13 +89,13 @@
     - **学习概念**: 正则表达式、数据类、输入校验模式
     - _Requirements: 3.1, 3.2, 3.3, 3.4, 3.5_
 
-  - [ ] 4.2 实现 sanitize_for_prompt 文本清理
+  - [x] 4.2 实现 sanitize_for_prompt 文本清理
     - 在 `app/infra/security.py` 中实现 `sanitize_for_prompt(text: str) -> str`
     - 移除潜在注入标记（如 `<|system|>`、`###instruction###`）但保留正常文本
     - **学习概念**: 字符串处理、防御性编程
     - _Requirements: 3.6_
 
-  - [ ]* 4.3 编写安全过滤属性测试
+  - [x]* 4.3 编写安全过滤属性测试
     - 创建 `tests/test_security.py`
     - 测试幂等性：相同输入多次调用结果一致
     - 测试长度边界：2001 字符必定拒绝
