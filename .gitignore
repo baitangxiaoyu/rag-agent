@@ -32,3 +32,5 @@ htmlcov/
 
 # uv
 .python-version
+
+spec.md

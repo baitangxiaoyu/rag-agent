@@ -35,7 +35,7 @@
   - 运行 `uvicorn app.main:app --reload`，访问 `/health` 确认返回 200
   - 确保所有测试通过，有问题请提问
 
-- [ ] 3. 配置管理系统
+- [x] 3. 配置管理系统
   - [x] 3.1 实现 Settings 环境变量加载
     - 创建 `app/config.py`
     - 定义 `Settings(BaseSettings)` 类，包含 redis_url、qdrant_url、database_url、llm_provider、llm_api_key、llm_base_url、llm_model、embedding_api_key、embedding_base_url、embedding_model、embedding_dimensions、port 字段
@@ -60,7 +60,7 @@
     - **学习概念**: 异步 Redis 操作、字典合并策略、类型转换
     - _Requirements: 2.1, 2.2, 2.3, 2.4, 2.5, 2.6, 2.7_
 
-  - [ ] 3.4 实现依赖注入模块
+  - [x] 3.4 实现依赖注入模块
     - 创建 `app/dependencies.py`
     - 实现 `get_redis()` → 返回 `redis.asyncio.Redis` 实例（连接池模式）
     - 实现 `get_qdrant_client()` → 返回 `AsyncQdrantClient` 实例
@@ -69,7 +69,7 @@
     - **学习概念**: FastAPI 依赖注入（Depends）、连接池生命周期管理
     - _Requirements: 1.3, 1.4_
 
-  - [ ]* 3.5 编写配置加载单元测试
+  - [x]* 3.5 编写配置加载单元测试
     - 创建 `tests/test_config.py`
     - 测试三级优先级：模拟 Redis 有值 → 使用 Redis 值；Redis 无值 → 使用环境变量
     - 测试 `parse_redis_value` 类型转换正确性
