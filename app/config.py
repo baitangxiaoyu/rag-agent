@@ -13,7 +13,7 @@ class Settings(BaseSettings):
     # === Redis ===
     redis_url: str = "redis://localhost:6379/0"
 
-    # === Qdrant 向量数据库 ===
+    # === qdrant 向量数据库 ===
     qdrant_url: str = "http://localhost:6333"
     qdrant_api_key: Optional[str] = None
 
@@ -52,6 +52,7 @@ class AIChatConfig:
     embedding_model: str = "embedding-3"  # 文本嵌入模型名称（用于向量化）
     embedding_api_key: str = ""  # Embedding API 密钥（可与主模型不同）
     embedding_base_url: str = "https://open.bigmodel.cn/api/paas/v4"  # Embedding API 基础地址
+    embedding_dimensions: int = 2048 # 嵌入向量维度
     
     # RAG 检索配置
     top_k: int = 5  # 向量检索返回的最相关文档数量
@@ -99,6 +100,7 @@ _CAMEL_TO_SNAKE = {
     "embeddingModel": "embedding_model",
     "embeddingApiKey": "embedding_api_key",
     "embeddingBaseUrl": "embedding_base_url",
+    "embeddingDimensions": "embedding_dimensions",
     "topK": "top_k",
     "scoreThreshold": "score_threshold",
     "systemPrompt": "system_prompt",
@@ -133,6 +135,7 @@ class AIConfigManager:
             "embedding_model": "embedding-3",
             "embedding_api_key": "",
             "embedding_base_url": "https://open.bigmodel.cn/api/paas/v4",
+            "embedding_dimensions": 2048,
             "top_k": 5,
             "score_threshold": 0.5,
             "system_prompt": DEFAULT_SYSTEM_PROMPT,
