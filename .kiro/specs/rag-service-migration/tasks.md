@@ -111,15 +111,15 @@
     - 添加异常处理：Qdrant 不可达时返回空列表而非抛出异常
     - _Requirements: 5.1, 5.2, 5.3, 5.4, 5.5_
 
-- [ ] 6. LLM 客户端与提示词模板
-  - [ ] 6.1 实现 LLM 工厂函数
+- [x] 6. LLM 客户端与提示词模板
+  - [x] 6.1 实现 LLM 工厂函数
     - 创建 `app/core/llm.py`
     - 实现 `create_llm(config: AIChatConfig) -> ChatOpenAI`
     - 参数：model、api_key、base_url、temperature、max_tokens、streaming=True
     - 兼容 OpenAI-compatible API（智谱 AI、Ollama 等）
     - _Requirements: 8.1, 8.2, 8.3_
 
-  - [ ] 6.2 实现提示词模板构建
+  - [x] 6.2 实现提示词模板构建
     - 创建 `app/core/prompt.py`
     - 定义 `DEFAULT_SYSTEM_PROMPT` 常量
     - 实现 `build_messages(query, documents, history, system_prompt) -> list`
@@ -128,7 +128,7 @@
     - 支持系统提示词通过配置动态更新
     - _Requirements: 9.1, 9.2, 9.3_
 
-  - [ ]* 6.3 编写提示词组装属性测试
+  - [x]* 6.3 编写提示词组装属性测试
     - 创建 `tests/test_prompt.py`
     - 测试组装完整性：输出必须包含系统提示、文档上下文和用户查询
     - **Property 14: 提示词组装完整性**
