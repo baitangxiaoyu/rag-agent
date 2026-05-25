@@ -134,8 +134,8 @@
     - **Property 14: 提示词组装完整性**
     - **Validates: Requirements 9.1, 9.2**
 
-- [ ] 7. 查询改写链
-  - [ ] 7.1 实现查询改写逻辑
+- [x] 7. 查询改写链
+  - [x] 7.1 实现查询改写逻辑
     - 创建 `app/core/query_rewriter.py`
     - 实现 `should_rewrite(query, history) -> bool`：短查询无历史→False，含注入模式→False
     - 实现 `create_query_rewriter(config) -> Runnable`：
@@ -146,7 +146,7 @@
     - 实现辅助函数 `contains_injection_pattern(text) -> bool`
     - _Requirements: 6.1, 6.2, 6.3, 6.4, 6.5, 6.6_
 
-  - [ ]* 7.2 编写查询改写属性测试
+  - [x]* 7.2 编写查询改写属性测试
     - 创建 `tests/test_query_rewriter.py`
     - 测试短查询跳过：len ≤ 5 且 history=[] 时返回原始查询
     - 测试注入检测跳过：含注入模式时返回原始查询
