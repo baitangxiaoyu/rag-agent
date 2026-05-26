@@ -155,8 +155,8 @@
     - **Property 10: 查询改写失败回退**
     - **Validates: Requirements 6.1, 6.2, 6.4**
 
-- [ ] 8. RAG 链编排
-  - [ ] 8.1 实现 create_rag_chain 核心函数
+- [x] 8. RAG 链编排
+  - [x] 8.1 实现 create_rag_chain 核心函数
     - 创建 `app/core/chain.py`
     - 实现 `create_rag_chain(config: AIChatConfig) -> Runnable`
     - LCEL 编排顺序：查询改写 → 向量检索 → 提示词构建 → LLM 生成 → StrOutputParser
@@ -167,7 +167,7 @@
     - 实现 `extract_sources(documents) -> list[SourceInfo]`
     - _Requirements: 7.1, 7.2, 7.3, 7.4, 7.5_
 
-- [ ] 9. Checkpoint - 确保 RAG 链可端到端运行
+- [x] 9. Checkpoint - 确保 RAG 链可端到端运行
   - 编写简单脚本测试 `create_rag_chain(config).invoke({"query": "测试", "history": []})`
   - 确保所有测试通过，有问题请提问
 
