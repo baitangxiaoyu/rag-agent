@@ -171,21 +171,23 @@
   - 编写简单脚本测试 `create_rag_chain(config).invoke({"query": "测试", "history": []})`
   - 确保所有测试通过，有问题请提问
 
-- [ ] 10. 会话管理
-  - [ ] 10.1 实现 Redis 会话存储
+- [x] 10. 会话管理
+  - [x] 10.1 实现 Redis 会话存储
     - 创建 `app/core/chat_history.py`
-    - 定义 `ChatMessage` dataclass：role、content、timestamp
+    - 两级唯一标识：session_id（对话窗口唯一，UUID v4）→ message.id（每条消息唯一，UUID v4）
+    - 定义 `ChatMessage` dataclass：id（UUID v4）、role、content、timestamp
     - 定义 `ChatSession` dataclass：session_id、messages、created_at、last_active_at、client_ip
+    - 实现 `create_message(role, content) -> ChatMessage` 工厂函数：自动生成唯一 ID 和时间戳
     - 实现 `RedisChatHistory` 类：
       - `KEY_PREFIX = "chat:session:"`，`TTL_SECONDS = 7 * 24 * 3600`
       - `async def get_session(session_id) -> ChatSession | None`：从 Redis 读取 JSON
       - `async def create_session(client_ip) -> ChatSession`：生成 UUID v4，写入 Redis
       - `async def append_message(session_id, message)`：追加消息，更新 lastActiveAt，刷新 TTL
-      - `async def get_or_create(session_id) -> ChatSession`：有则获取，无则创建
+      - `async def get_or_create(session_id, client_ip) -> ChatSession`：有则获取，无则创建
     - JSON 序列化使用 camelCase 字段名（与 TypeScript 版兼容）
     - _Requirements: 10.1, 10.2, 10.3, 10.4, 10.5, 10.6, 10.7_
 
-  - [ ]* 10.2 编写会话管理属性测试
+  - [x]* 10.2 编写会话管理属性测试
     - 创建 `tests/test_chat_history.py`
     - 测试追加后读取一致性：append_message 后 get_session 最后一条消息匹配
     - 测试 JSON 序列化 camelCase：所有字段名为 camelCase 格式
