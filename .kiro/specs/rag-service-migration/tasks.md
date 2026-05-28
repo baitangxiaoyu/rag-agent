@@ -195,8 +195,8 @@
     - **Property 12: 会话 JSON camelCase 序列化**
     - **Validates: Requirements 10.2, 10.4**
 
-- [ ] 11. 文本分块器
-  - [ ] 11.1 实现 Markdown 感知分块
+- [x] 11. 文本分块器
+  - [x] 11.1 实现 Markdown 感知分块
     - 创建 `app/infra/chunker.py`
     - 定义 `ContentMeta` dataclass：content_id、content_type、title、category_name、create_time
     - 实现 `chunk_content(markdown: str, meta: ContentMeta) -> list[Document]`：
@@ -207,7 +207,7 @@
     - chunkIndex 从 0 递增，保证唯一
     - _Requirements: 11.1, 11.2, 11.3, 11.4, 11.5, 11.6_
 
-  - [ ]* 11.2 编写分块属性测试
+  - [x]* 11.2 编写分块属性测试
     - 创建 `tests/test_chunker.py`
     - 测试 token 上限：每个块 token ≤ 512
     - 测试 chunkIndex 单调递增：0, 1, 2, ..., N-1
