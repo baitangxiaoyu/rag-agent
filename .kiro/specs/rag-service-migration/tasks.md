@@ -217,29 +217,29 @@
     - **Property 6: 分块语义前缀**
     - **Validates: Requirements 11.2, 11.4, 11.6**
 
-- [ ] 12. 内容索引服务
-  - [ ] 12.1 实现确定性 Point ID 生成
+- [x] 12. 内容索引服务
+  - [x] 12.1 实现确定性 Point ID 生成
     - 创建 `app/infra/indexer.py`
     - 实现 `generate_point_id(content_id: int, chunk_index: int) -> str`
     - 算法：`SHA-1("{contentId}_chunk_{chunkIndex}")` 取前 16 字节构造 UUID
     - 使用 `hashlib.sha1` 和 `uuid.UUID(bytes=...)`
     - _Requirements: 12.5, 12.6, 18.4_
 
-  - [ ]* 12.2 编写 Point ID 属性测试
+  - [x]* 12.2 编写 Point ID 属性测试
     - 创建 `tests/test_indexer.py`
     - 相同输入始终生成相同 UUID
     - 输出是合法 UUID 格式
     - **Property 1: 确定性 Point ID**
     - **Validates: Requirements 12.5, 12.6**
 
-  - [ ] 12.3 实现 MySQL 数据读取
+  - [x] 12.3 实现 MySQL 数据读取
     - 创建 `app/infra/db.py`
     - 使用 SQLAlchemy AsyncSession 连接 MySQL
     - 实现 `get_content(content_id, content_type) -> ContentMeta + markdown`
     - 实现 `get_all_contents() -> list`（用于全量重建）
     - _Requirements: 12.1_
 
-  - [ ] 12.4 实现 ContentIndexer 索引管理
+  - [x] 12.4 实现 ContentIndexer 索引管理
     - 在 `app/infra/indexer.py` 中实现 `ContentIndexer` 类：
       - `async def index_content(content_id, content_type) -> IndexResult`：读取内容 → 删除旧向量 → 分块 → Embedding → 写入 Qdrant
       - `async def remove_content_index(content_id) -> bool`：按 sourceId 过滤删除所有向量点
