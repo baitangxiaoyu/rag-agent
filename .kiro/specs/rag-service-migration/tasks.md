@@ -249,13 +249,13 @@
     - 索引已存在内容时先删除旧向量再写入新向量
     - _Requirements: 12.1, 12.2, 12.3, 12.4, 12.7_
 
-- [ ] 13. Checkpoint - 确保索引服务正常
+- [x] 13. Checkpoint - 确保索引服务正常
   - 测试 `index_content` 能将文章写入 Qdrant
   - 测试 `remove_content_index` 能删除对应向量
   - 确保所有测试通过，有问题请提问
 
-- [ ] 14. Pydantic 请求/响应模型
-  - [ ] 14.1 定义所有 Schema 模型
+- [x] 14. Pydantic 请求/响应模型
+  - [x] 14.1 定义所有 Schema 模型
     - 创建 `app/schemas/chat.py`：定义 ChatRequest（message, session_id）、ChatSSEEvent（type, content）、SourceInfo
     - 创建 `app/schemas/index.py`：定义 IndexRequest（content_id, content_type 限定 article|note）、IndexResponse、RebuildResponse
     - 创建 `app/schemas/config.py`：定义 ConfigResponse（camelCase alias）、ConfigUpdateRequest（temperature [0,2]、maxTokens [100,8192] 范围验证）
