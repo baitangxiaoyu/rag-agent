@@ -274,8 +274,8 @@
     - 错误处理：输入过滤失败返回 HTTP 400，LLM 不可达发送 error 事件
     - _Requirements: 13.1, 13.2, 13.3, 13.4, 13.5, 13.6, 13.7_
 
-- [ ] 16. 索引管理 API
-  - [ ] 16.1 实现索引 CRUD 路由
+- [x] 16. 索引管理 API
+  - [x] 16.1 实现索引 CRUD 路由
     - 创建 `app/routers/index.py`
     - `POST /index`：调用 indexer.index_content，返回 `{"success": true, "chunks": N}`
     - `POST /index/rebuild`：调用 indexer.rebuild_index，返回统计信息
