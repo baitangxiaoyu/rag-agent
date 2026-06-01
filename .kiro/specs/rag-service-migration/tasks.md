@@ -261,8 +261,8 @@
     - 创建 `app/schemas/config.py`：定义 ConfigResponse（camelCase alias）、ConfigUpdateRequest（temperature [0,2]、maxTokens [100,8192] 范围验证）
     - _Requirements: 13.1, 14.1, 14.4, 15.1, 15.3, 15.4_
 
-- [ ] 15. SSE 流式聊天 API
-  - [ ] 15.1 实现 POST /chat SSE 流式端点
+- [x] 15. SSE 流式聊天 API
+  - [x] 15.1 实现 POST /chat SSE 流式端点
     - 创建 `app/routers/chat.py`
     - 实现 `POST /chat` 路由：
       - 安全过滤 → 获取/创建会话 → 构建 RAG 链 → astream 流式输出
@@ -274,8 +274,8 @@
     - 错误处理：输入过滤失败返回 HTTP 400，LLM 不可达发送 error 事件
     - _Requirements: 13.1, 13.2, 13.3, 13.4, 13.5, 13.6, 13.7_
 
-- [ ] 16. 索引管理 API
-  - [ ] 16.1 实现索引 CRUD 路由
+- [x] 16. 索引管理 API
+  - [x] 16.1 实现索引 CRUD 路由
     - 创建 `app/routers/index.py`
     - `POST /index`：调用 indexer.index_content，返回 `{"success": true, "chunks": N}`
     - `POST /index/rebuild`：调用 indexer.rebuild_index，返回统计信息
@@ -284,16 +284,16 @@
     - 索引失败时返回 HTTP 500 并说明失败原因
     - _Requirements: 14.1, 14.2, 14.3, 14.4, 14.5_
 
-- [ ] 17. 配置 API
-  - [ ] 17.1 实现配置读写路由
+- [x] 17. 配置 API
+  - [x] 17.1 实现配置读写路由
     - 创建 `app/routers/config.py`
     - `GET /config`：调用 config_manager.get_all()，返回 camelCase 配置
     - `PUT /config`：接受部分字段更新，验证 temperature [0,2]、maxTokens [100,8192]
     - 验证失败返回 HTTP 422，成功返回更新后完整配置
     - _Requirements: 15.1, 15.2, 15.3, 15.4, 15.5_
 
-- [ ] 18. 错误处理与降级策略
-  - [ ] 18.1 实现全局降级逻辑
+- [x] 18. 错误处理与降级策略
+  - [x] 18.1 实现全局降级逻辑
     - 在 `app/core/chain.py` 中：Qdrant 检索失败时跳过检索，直接用 LLM 回答（降级模式）
     - 在 `app/core/chat_history.py` 中：Redis 读写失败时创建临时内存会话
     - 在 `app/core/query_rewriter.py` 中：LLM 调用异常时静默回退原始查询
