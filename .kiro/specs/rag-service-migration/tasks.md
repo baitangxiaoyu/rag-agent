@@ -284,8 +284,8 @@
     - 索引失败时返回 HTTP 500 并说明失败原因
     - _Requirements: 14.1, 14.2, 14.3, 14.4, 14.5_
 
-- [ ] 17. 配置 API
-  - [ ] 17.1 实现配置读写路由
+- [x] 17. 配置 API
+  - [x] 17.1 实现配置读写路由
     - 创建 `app/routers/config.py`
     - `GET /config`：调用 config_manager.get_all()，返回 camelCase 配置
     - `PUT /config`：接受部分字段更新，验证 temperature [0,2]、maxTokens [100,8192]
