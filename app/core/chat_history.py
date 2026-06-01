@@ -1,11 +1,14 @@
-"""Redis 会话存储模块 — 管理聊天会话的持久化和检索"""
+"""Redis 会话存储模块 — 管理聊天会话的持久化和检索，含 Redis 故障降级"""
 
 import json
+import logging
 import time
 import uuid
 from dataclasses import dataclass, field
 
 from redis.asyncio import Redis
+
+logger = logging.getLogger(__name__)
 
 
 @dataclass
@@ -93,15 +96,19 @@ class RedisChatHistory:
         self.redis_client = redis_client
 
     async def get_session(self, session_id: str) -> ChatSession | None:
-        """根据会话 ID 获取会话，不存在返回 None"""
-        raw = await self.redis_client.get(self.KEY_PREFIX + session_id)
-        if raw is None:
+        """根据会话 ID 获取会话，不存在返回 None，Redis 故障时返回 None"""
+        try:
+            raw = await self.redis_client.get(self.KEY_PREFIX + session_id)
+            if raw is None:
+                return None
+            data = json.loads(raw)
+            return _dict_to_session(data)
+        except Exception as e:
+            logger.warning(f"Redis 读取会话失败，降级处理: {e}")
             return None
-        data = json.loads(raw)
-        return _dict_to_session(data)
 
     async def create_session(self, client_ip: str = "") -> ChatSession:
-        """创建新会话，生成 UUID v4 作为会话 ID"""
+        """创建新会话，Redis 故障时返回临时内存会话"""
         session_id = str(uuid.uuid4())
         now = int(time.time())
         session = ChatSession(
@@ -111,17 +118,25 @@ class RedisChatHistory:
             last_active_at=now,
             client_ip=client_ip,
         )
-        await self._save_session(session)
+        try:
+            await self._save_session(session)
+        except Exception as e:
+            logger.warning(f"Redis 写入会话失败，使用临时内存会话: {e}")
         return session
 
     async def append_message(self, session_id: str, message: ChatMessage) -> None:
-        """向会话追加消息，更新 lastActiveAt 并刷新 TTL"""
-        session = await self.get_session(session_id)
-        if session is None:
-            raise ValueError(f"会话不存在: {session_id}")
-        session.messages.append(message)
-        session.last_active_at = int(time.time())
-        await self._save_session(session)
+        """向会话追加消息，Redis 故障时静默忽略"""
+        try:
+            session = await self.get_session(session_id)
+            if session is None:
+                # 会话不存在时创建临时会话（降级）
+                logger.warning(f"会话不存在: {session_id}，跳过消息保存")
+                return
+            session.messages.append(message)
+            session.last_active_at = int(time.time())
+            await self._save_session(session)
+        except Exception as e:
+            logger.warning(f"追加消息到会话失败（不影响响应）: {e}")
 
     async def get_or_create(self, session_id: str | None, client_ip: str = "") -> ChatSession:
         """获取已有会话或创建新会话"""

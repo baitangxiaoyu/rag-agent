@@ -292,8 +292,8 @@
     - 验证失败返回 HTTP 422，成功返回更新后完整配置
     - _Requirements: 15.1, 15.2, 15.3, 15.4, 15.5_
 
-- [ ] 18. 错误处理与降级策略
-  - [ ] 18.1 实现全局降级逻辑
+- [x] 18. 错误处理与降级策略
+  - [x] 18.1 实现全局降级逻辑
     - 在 `app/core/chain.py` 中：Qdrant 检索失败时跳过检索，直接用 LLM 回答（降级模式）
     - 在 `app/core/chat_history.py` 中：Redis 读写失败时创建临时内存会话
     - 在 `app/core/query_rewriter.py` 中：LLM 调用异常时静默回退原始查询

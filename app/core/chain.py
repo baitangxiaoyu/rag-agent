@@ -120,9 +120,15 @@ def create_rag_chain(config: AIChatConfig) -> Runnable:
 
     # Step 2: 向量检索
     async def _retrieve_step(inputs: dict) -> list[Document]:
-        """使用改写后的查询进行向量检索"""
+        """使用改写后的查询进行向量检索，Qdrant 不可达时降级为空列表"""
         rewritten_query = inputs["rewritten_query"]
-        return await retriever.ainvoke(rewritten_query)
+        try:
+            return await retriever.ainvoke(rewritten_query)
+        except Exception as e:
+            # 降级模式：Qdrant 检索失败时跳过检索，直接用 LLM 回答
+            import logging
+            logging.getLogger(__name__).warning(f"向量检索失败，降级为无文档模式: {e}")
+            return []
 
     # Step 3: 提示词构建
     def _build_prompt_input(inputs: dict) -> dict:

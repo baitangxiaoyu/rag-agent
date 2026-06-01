@@ -196,15 +196,15 @@ async def test_get_or_create_creates_new_when_not_found():
 
 
 @pytest.mark.asyncio
-async def test_append_message_raises_on_missing_session():
-    """对不存在的会话追加消息应抛出 ValueError"""
+async def test_append_message_silent_on_missing_session():
+    """对不存在的会话追加消息应静默忽略（降级策略）"""
     fake_redis = FakeRedis()
     history = RedisChatHistory(redis_client=fake_redis)
 
     msg = ChatMessage(id=str(uuid_mod.uuid4()), role="user", content="你好", timestamp=int(time.time()))
 
-    with pytest.raises(ValueError, match="会话不存在"):
-        await history.append_message("no-such-session", msg)
+    # 降级后不抛出异常，静默忽略
+    await history.append_message("no-such-session", msg)
 
 
 @pytest.mark.asyncio
