@@ -261,8 +261,8 @@
     - 创建 `app/schemas/config.py`：定义 ConfigResponse（camelCase alias）、ConfigUpdateRequest（temperature [0,2]、maxTokens [100,8192] 范围验证）
     - _Requirements: 13.1, 14.1, 14.4, 15.1, 15.3, 15.4_
 
-- [ ] 15. SSE 流式聊天 API
-  - [ ] 15.1 实现 POST /chat SSE 流式端点
+- [x] 15. SSE 流式聊天 API
+  - [x] 15.1 实现 POST /chat SSE 流式端点
     - 创建 `app/routers/chat.py`
     - 实现 `POST /chat` 路由：
       - 安全过滤 → 获取/创建会话 → 构建 RAG 链 → astream 流式输出
