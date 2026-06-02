@@ -8,6 +8,7 @@ from qdrant_client import AsyncQdrantClient
 from redis.asyncio import Redis
 
 from app.config import settings
+from app.routers import chat, index, config
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
@@ -50,6 +51,12 @@ app = FastAPI(
     version="0.1.0",
     lifespan=lifespan,
 )
+
+
+# 注册路由
+app.include_router(chat.router, tags=["chat"])
+app.include_router(index.router, prefix="/index", tags=["index"])
+app.include_router(config.router, prefix="/config", tags=["config"])
 
 
 @app.get("/health")
