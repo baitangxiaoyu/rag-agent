@@ -34,6 +34,8 @@ class Settings(BaseSettings):
 
     # === 服务 ===
     port: int = 8000
+    # Next.js 代理使用的 RAG 服务地址（供外部服务发现）
+    rag_service_url: str = "http://localhost:8000"
 # 全局 settings 实例（应用启动时自动从环境变量/.env 加载）
 settings = Settings()
 
