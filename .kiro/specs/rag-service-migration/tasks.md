@@ -301,8 +301,8 @@
     - 所有重试失败返回友好错误消息而非技术错误详情
     - _Requirements: 17.1, 17.2, 17.3, 17.4, 17.5_
 
-- [ ] 19. 数据格式兼容性验证
-  - [ ] 19.1 确保 Redis/Qdrant 数据格式与 TypeScript 服务兼容
+- [x] 19. 数据格式兼容性验证
+  - [x] 19.1 确保 Redis/Qdrant 数据格式与 TypeScript 服务兼容
     - Redis Hash 键使用 `ai_chat:config`，与 TypeScript 服务共享
     - Redis 会话键使用 `chat:session:{uuid}` 格式
     - Qdrant 集合名 `blog_content_chunks`
@@ -318,8 +318,8 @@
     - **Property 13: Redis 数据双向兼容（round-trip）**
     - **Validates: Requirements 18.6, 18.7**
 
-- [ ] 20. 路由注册与应用集成
-  - [ ] 20.1 完善 main.py 注册所有路由
+- [x] 20. 路由注册与应用集成
+  - [x] 20.1 完善 main.py 注册所有路由
     - 在 `app/main.py` 中：
       - `app.include_router(chat.router, tags=["chat"])`
       - `app.include_router(index.router, prefix="/index", tags=["index"])`
@@ -328,15 +328,15 @@
     - 关闭时释放所有连接资源
     - _Requirements: 1.1, 1.3, 1.4_
 
-- [ ] 21. Docker 部署与 Next.js 代理集成
-  - [ ] 21.1 完善 Docker 配置和代理集成
+- [x] 21. Docker 部署与 Next.js 代理集成
+  - [x] 21.1 完善 Docker 配置和代理集成
     - 更新 `Dockerfile`：安装生产依赖、设置 PYTHONPATH、CMD 启动 uvicorn
     - 更新 `docker-compose.yml`：配置 rag-service 服务、环境变量映射、depends_on、healthcheck
     - 支持通过环境变量 `RAG_SERVICE_URL` 配置服务地址
     - 确保 SSE 代理响应保持流式传输不中断
     - _Requirements: 16.1, 16.2, 16.3, 16.4, 16.5_
 
-- [ ] 22. Final Checkpoint - 端到端验证
+- [x] 22. Final Checkpoint - 端到端验证
   - 启动 Docker 容器，验证所有 API 端点正常
   - 测试聊天 SSE 流式响应
   - 测试索引创建和删除

@@ -5,6 +5,12 @@ services:
       - "8000:8000"
     env_file:
       - .env
+    environment:
+      # 服务内部连接地址（覆盖 .env 中的 localhost 配置）
+      REDIS_URL: redis://redis:6379/0
+      QDRANT_URL: http://qdrant:6333
+      # 供 Next.js 代理使用的 RAG 服务地址（可在宿主机通过环境变量覆盖）
+      RAG_SERVICE_URL: ${RAG_SERVICE_URL:-http://rag-service:8000}
     depends_on:
       redis:
         condition: service_healthy
@@ -15,11 +21,15 @@ services:
       interval: 10s
       timeout: 5s
       retries: 3
+      start_period: 15s
+    restart: unless-stopped
 
   redis:
     image: redis:7-alpine
     ports:
       - "6379:6379"
+    volumes:
+      - redis_data:/data
     healthcheck:
       test: ["CMD", "redis-cli", "ping"]
       interval: 5s
@@ -39,4 +49,5 @@ services:
       retries: 3
 
 volumes:
+  redis_data:
   qdrant_data:
