@@ -7,8 +7,13 @@ from pydantic_settings import BaseSettings, SettingsConfigDict
 
 class Settings(BaseSettings):
     """环境变量配置（静态），通过 .env 文件或系统环境变量加载"""
-    # model_config 代表优先从 .env文件中读取配置
-    model_config = SettingsConfigDict(env_file=".env", env_file_encoding="utf-8")
+    # model_config：优先从 .env 读取；extra="ignore" 允许 .env 中存在未声明字段
+    # （与 TypeScript 服务共享 .env 时常见，避免多余变量导致启动失败）
+    model_config = SettingsConfigDict(
+        env_file=".env",
+        env_file_encoding="utf-8",
+        extra="ignore",
+    )
 
     # === Redis ===
     redis_url: str = "redis://localhost:6379/0"
@@ -17,7 +22,7 @@ class Settings(BaseSettings):
     qdrant_url: str = "http://localhost:6333"
     qdrant_api_key: Optional[str] = None
 
-    # === MySQL 数据库 ===
+    # === MySQL 数据库（需使用 SQLAlchemy 异步驱动格式：mysql+aiomysql://）===
     database_url: str = "mysql+aiomysql://root:password@localhost:3306/blog"
 
     # === LLM 配置 ===
@@ -27,6 +32,7 @@ class Settings(BaseSettings):
     llm_model: str = "glm-4-flash"
 
     # === Embedding 配置 ===
+    embedding_provider: str = "openai-compatible"
     embedding_api_key: str = ""
     embedding_base_url: str = "https://open.bigmodel.cn/api/paas/v4"
     embedding_model: str = "embedding-3"
@@ -36,6 +42,8 @@ class Settings(BaseSettings):
     port: int = 8000
     # Next.js 代理使用的 RAG 服务地址（供外部服务发现）
     rag_service_url: str = "http://localhost:8000"
+
+
 # 全局 settings 实例（应用启动时自动从环境变量/.env 加载）
 settings = Settings()
 
@@ -154,8 +162,9 @@ class AIConfigManager:
             "embedding_model": s.embedding_model,
             "embedding_api_key": s.embedding_api_key,
             "embedding_base_url": s.embedding_base_url,
+            "embedding_dimensions": s.embedding_dimensions,
         }
-        # 仅覆盖非空值
+        # 仅覆盖非空值（embedding_dimensions 为 int，0 视为未设置）
         for k, v in env_overrides.items():
             if v:
                 config_dict[k] = v
